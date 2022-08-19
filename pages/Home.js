@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const [day, setDay] = useState(null);
   const [week, setWeek] = useState(null);
   const [active, setActive] = useState("day");
@@ -40,9 +40,6 @@ const Home = () => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    console.log(
-      `https://api.themoviedb.org/3/trending/all/${active}?api_key=5eb0ddc04f2b7e853cc4f375d3b22947`
-    );
     axios
       .get(
         `https://api.themoviedb.org/3/trending/all/${active}?api_key=5eb0ddc04f2b7e853cc4f375d3b22947`
@@ -65,33 +62,34 @@ const Home = () => {
   const renderItem = (result) => {
     return (
       <View style={styles.List.Card}>
-        <ImageBackground
-          style={styles.List.Card.Image}
-          source={{
-            uri: `https://image.tmdb.org/t/p/original/${result.item.poster_path}`,
-          }}
-          resizeMode="cover"
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("Detail", {
+              id: result.item.id,
+              type: result.item.media_type,
+            })
+          }
         >
-          <View style={styles.List.Card.Info}>
-            <Text style={styles.List.Card.Text}>
-              {result.item.vote_average}
-            </Text>
-            <Icon name="star" size={18} color="yellow"></Icon>
-          </View>
-        </ImageBackground>
+          <ImageBackground
+            style={styles.List.Card.Image}
+            source={{
+              uri: `https://image.tmdb.org/t/p/original/${result.item.poster_path}`,
+            }}
+            resizeMode="cover"
+          >
+            <View style={styles.List.Card.Info}>
+              <Text style={styles.List.Card.Text}>
+                {result.item.vote_average}
+              </Text>
+              <Icon name="star" size={18} color="yellow"></Icon>
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
       </View>
     );
   };
   return (
     <SafeAreaView style={styles.Body}>
-      <View style={styles.Header}>
-        <Text style={styles.Header.Text}>
-          Movie<Text style={styles.Header.Text.DB}>DB</Text>
-        </Text>
-        <TouchableOpacity>
-          <Icon name="search" size={24} color="#fff"></Icon>
-        </TouchableOpacity>
-      </View>
       <View style={styles.Toggler}>
         <TouchableOpacity onPress={() => setActive("day")}>
           <View
@@ -162,7 +160,6 @@ const Home = () => {
           }
         />
       )}
-      <StatusBar style="light" animated={true} backgroundColor="#61dafb" />
     </SafeAreaView>
   );
 };
@@ -170,23 +167,9 @@ const Home = () => {
 const styles = StyleSheet.create({
   Body: {
     backgroundColor: "#1B1B1D",
-    height: "100%",
+    // height: "100%",
+    marginBottom:20
   },
-  Header: {
-    padding: 5,
-    borderBottomColor: "#fff",
-    borderBottomWidth: 2,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    Text: {
-      fontSize: 22,
-      color: "#fff",
-      DB: {
-        color: "red",
-      },
-    },
-  },
-
   List: {
     Card: {
       width: "50%",
@@ -217,7 +200,7 @@ const styles = StyleSheet.create({
       backgroundColor: "#fff",
       padding: 10,
       active: {
-        backgroundColor: "red",
+        backgroundColor: "#b30000",
       },
       Text: {
         fontSize: 16,
