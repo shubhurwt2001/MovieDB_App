@@ -1,8 +1,6 @@
 import axios from "axios";
-import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useState } from "react";
 import {
-  Button,
   FlatList,
   ImageBackground,
   RefreshControl,
@@ -64,7 +62,7 @@ const Home = ({ navigation }) => {
       <View style={styles.List.Card}>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("Detail", {
+            navigation.navigate("Details", {
               id: result.item.id,
               type: result.item.media_type,
             })
