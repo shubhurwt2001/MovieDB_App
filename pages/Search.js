@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import {
   FlatList,
+  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -49,7 +50,17 @@ const Search = ({ navigation }) => {
             })
           }
         >
-          <Text style={styles.Text}>{result.item.title ? result.item.title : result.item.name}</Text>
+          <View style={styles.Item}>
+            <Image
+              source={{
+                uri: `https://image.tmdb.org/t/p/original/${result.item.poster_path}`,
+              }}
+              style={styles.Item.Image}
+            />
+            <Text style={styles.Text}>
+              {result.item.title ? result.item.title : result.item.name}
+            </Text>
+          </View>
         </TouchableOpacity>
       </View>
     );
@@ -95,7 +106,19 @@ const styles = StyleSheet.create({
   },
   Text: {
     color: "#fff",
-    padding: 10,
+    marginLeft:5
+  },
+  Item: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    alignItems: "center",
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderBottomColor:"#fff",
+    Image: {
+      width: 40,
+      height: 50,
+    },
   },
 });
 export default Search;

@@ -11,29 +11,50 @@ import {
   View,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import RNPickerSelect from "@react-native-picker/picker";
+
+export const Pagination = (items) => {
+  return (
+    <RNPickerSelect
+      onValueChange={(value) => console.log(value)}
+      items={[
+        { label: "Football", value: "football" },
+        { label: "Baseball", value: "baseball" },
+        { label: "Hockey", value: "hockey" },
+      ]}
+    />
+  );
+};
 
 const Home = ({ navigation }) => {
   const [day, setDay] = useState(null);
   const [week, setWeek] = useState(null);
   const [active, setActive] = useState("day");
   const [refreshing, setRefreshing] = useState(false);
-  useEffect(() => {
+
+  const getDay = (page) => {
     axios
       .get(
-        `https://api.themoviedb.org/3/trending/all/day?api_key=5eb0ddc04f2b7e853cc4f375d3b22947`
+        `https://api.themoviedb.org/3/trending/all/day?api_key=5eb0ddc04f2b7e853cc4f375d3b22947&page=${page}`
       )
       .then((data) => {
         setDay(data.data);
-        // console.log(data.data);
       });
+  };
 
+  const getWeek = (page) => {
     axios
       .get(
-        `https://api.themoviedb.org/3/trending/all/week?api_key=5eb0ddc04f2b7e853cc4f375d3b22947`
+        `https://api.themoviedb.org/3/trending/all/week?api_key=5eb0ddc04f2b7e853cc4f375d3b22947&page=${page}`
       )
       .then((data) => {
         setWeek(data.data);
       });
+  };
+
+  useEffect(() => {
+    getDay("1");
+    getWeek("1");
   }, []);
 
   const onRefresh = useCallback(() => {
@@ -86,43 +107,49 @@ const Home = ({ navigation }) => {
       </View>
     );
   };
+
   return (
     <SafeAreaView style={styles.Body}>
       <View style={styles.Toggler}>
-        <TouchableOpacity onPress={() => setActive("day")}>
-          <View
-            style={[
-              styles.Toggler.Toggle,
-              active == "day" && styles.Toggler.Toggle.active,
-            ]}
-          >
-            <Text
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity onPress={() => setActive("day")}>
+            <View
               style={[
-                styles.Toggler.Toggle.Text,
-                active == "day" && styles.Toggler.Toggle.Text.active,
+                styles.Toggler.Toggle,
+                active == "day" && styles.Toggler.Toggle.active,
               ]}
             >
-              Day
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActive("week")}>
-          <View
-            style={[
-              styles.Toggler.Toggle,
-              active == "week" && styles.Toggler.Toggle.active,
-            ]}
-          >
-            <Text
+              <Text
+                style={[
+                  styles.Toggler.Toggle.Text,
+                  active == "day" && styles.Toggler.Toggle.Text.active,
+                ]}
+              >
+                Day
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setActive("week")}>
+            <View
               style={[
-                styles.Toggler.Toggle.Text,
-                active == "week" && styles.Toggler.Toggle.Text.active,
+                styles.Toggler.Toggle,
+                active == "week" && styles.Toggler.Toggle.active,
               ]}
             >
-              Week
-            </Text>
-          </View>
-        </TouchableOpacity>
+              <Text
+                style={[
+                  styles.Toggler.Toggle.Text,
+                  active == "week" && styles.Toggler.Toggle.Text.active,
+                ]}
+              >
+                Week
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        {day && active === "day" && (
+          <View>{Pagination([...Array(day.total_pages).keys()])}</View>
+        )}
       </View>
       {active == "day" && day && (
         <FlatList
@@ -140,7 +167,7 @@ const Home = ({ navigation }) => {
             />
           }
         />
-      )}
+      )}z
       {active == "week" && week && (
         <FlatList
           data={week.results}
@@ -166,7 +193,7 @@ const styles = StyleSheet.create({
   Body: {
     backgroundColor: "#1B1B1D",
     // height: "100%",
-    marginBottom:20
+    marginBottom: 20,
   },
   List: {
     Card: {
@@ -193,6 +220,8 @@ const styles = StyleSheet.create({
   Toggler: {
     flexDirection: "row",
     padding: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
     Toggle: {
       width: 100,
       backgroundColor: "#fff",
