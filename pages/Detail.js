@@ -114,13 +114,17 @@ const Detail = ({ route }) => {
           )}
           {route.params.type === "tv" && (
             <>
-              <Text style={styles.Text}>
-                Last Air Date :{" "}
-                {moment(data.last_air_date).format("MMMM Do YYYY")}
-              </Text>
-              <Text style={styles.Text}>
-                Last Episode Name : {data.last_episode_to_air.name}
-              </Text>
+              {data.last_episode_to_air && (
+                <>
+                  <Text style={styles.Text}>
+                    Last Air Date :{" "}
+                    {moment(data.last_air_date).format("MMMM Do YYYY")}
+                  </Text>
+                  <Text style={styles.Text}>
+                    Last Episode Name : {data.last_episode_to_air.name}
+                  </Text>
+                </>
+              )}
 
               {data.next_episode_to_air && (
                 <>

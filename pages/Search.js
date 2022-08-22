@@ -50,16 +50,20 @@ const Search = ({ navigation }) => {
             })
           }
         >
-          <View style={styles.Item}>
-            <Image
-              source={{
-                uri: `https://image.tmdb.org/t/p/original/${result.item.poster_path}`,
-              }}
-              style={styles.Item.Image}
-            />
-            <Text style={styles.Text}>
-              {result.item.title ? result.item.title : result.item.name}
-            </Text>
+          <View style={styles.List}>
+            <View style={{flex:"0 0 0"}}>
+              <Image
+                source={{
+                  uri: `https://image.tmdb.org/t/p/original/${result.item.poster_path}`,
+                }}
+                style={styles.List.Image}
+              />
+            </View>
+            <View style={{flex:"2 1 0"}}>
+              <Text style={styles.List.Text}>
+                {result.item.title ? result.item.title : result.item.name}
+              </Text>
+            </View>
           </View>
         </TouchableOpacity>
       </View>
@@ -78,7 +82,6 @@ const Search = ({ navigation }) => {
           <FlatList
             data={results.results}
             renderItem={renderItem}
-            style={styles.List}
             keyExtractor={(result) => result.id}
           />
         ) : (
@@ -106,18 +109,22 @@ const styles = StyleSheet.create({
   },
   Text: {
     color: "#fff",
-    marginLeft:5
+    marginLeft: 10,
   },
-  Item: {
-    paddingHorizontal: 10,
+  List: {
+    marginHorizontal: 10,
     paddingVertical: 5,
-    alignItems: "center",
     flexDirection: "row",
-    borderBottomWidth: 1,
-    borderBottomColor:"#fff",
+    alignItems: "center",
+    borderBottomWidth: 2,
+    borderBottomColor: "#fff",
     Image: {
-      width: 40,
       height: 50,
+      width: 40
+    },
+    Text: {
+      color: "#fff",
+      marginLeft: 10,
     },
   },
 });

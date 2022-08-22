@@ -1,15 +1,15 @@
 {
   "expo": {
     "name": "MovieDB",
-    "slug": "MovieDB",
+    "slug": "by_shubham_rawat",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/apple.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#b30000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -18,13 +18,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "moviedb"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#b30000"
+      },
+      "package": "com.shubhurwt2001.by_shubham_rawat"
     },
     "web": {
       "favicon": "./assets/favicon.png"
