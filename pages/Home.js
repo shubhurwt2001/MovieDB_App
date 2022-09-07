@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   FlatList,
   ImageBackground,
+  Platform,
   RefreshControl,
   SafeAreaView,
   StyleSheet,
@@ -35,7 +36,7 @@ const Home = ({ navigation }) => {
         const pagination = new Array(data.data.total_pages)
           .fill("")
           .map((_, i) => {
-            return { label: i + 1, value: i + 1 };
+            return { label: `Page ${i + 1}`, value: i + 1 };
           });
         data.data.pagination = pagination;
         setDay(data.data);
@@ -57,7 +58,7 @@ const Home = ({ navigation }) => {
         const pagination = new Array(data.data.total_pages)
           .fill("")
           .map((_, i) => {
-            return { label: i + 1, value: i + 1 };
+            return { label: `Page ${i + 1}`, value: i + 1 };
           });
         data.data.pagination = pagination;
         setWeek(data.data);
@@ -104,7 +105,12 @@ const Home = ({ navigation }) => {
                 </Text>
                 <Icon name="star" size={18} color="yellow"></Icon>
               </View>
-              <View style={[styles.List.Card.Info,{justifyContent:"flex-end",width:"auto"}]}>
+              <View
+                style={[
+                  styles.List.Card.Info,
+                  { justifyContent: "flex-end", width: "auto" },
+                ]}
+              >
                 <Text style={[styles.List.Card.Text]}>
                   {result.item.media_type.toUpperCase()}
                 </Text>
@@ -118,7 +124,7 @@ const Home = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.Body}>
-      <View style={styles.Toggler}>
+      <View style={[styles.Toggler, Platform.OS == "ios" && { zIndex: 9 }]}>
         <View style={styles.Toggler.Inner}>
           <TouchableOpacity onPress={() => setActive("day")}>
             <View
@@ -276,7 +282,6 @@ const styles = StyleSheet.create({
     },
   },
   Toggler: {
-    zIndex: 99999,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

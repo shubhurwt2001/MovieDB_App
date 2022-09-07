@@ -51,7 +51,7 @@ const Search = ({ navigation }) => {
           }
         >
           <View style={styles.List}>
-            <View style={{flex:"0 0 0"}}>
+            <View style={{ flex: 0 }}>
               <Image
                 source={{
                   uri: `https://image.tmdb.org/t/p/original/${result.item.poster_path}`,
@@ -59,7 +59,7 @@ const Search = ({ navigation }) => {
                 style={styles.List.Image}
               />
             </View>
-            <View style={{flex:"2 1 0"}}>
+            <View style={{ flex: 2 }}>
               <Text style={styles.List.Text}>
                 {result.item.title ? result.item.title : result.item.name}
               </Text>
@@ -120,12 +120,13 @@ const styles = StyleSheet.create({
     borderBottomColor: "#fff",
     Image: {
       height: 50,
-      width: 40
+      width: 40,
     },
     Text: {
       color: "#fff",
       marginLeft: 10,
     },
+
   },
 });
 export default Search;
